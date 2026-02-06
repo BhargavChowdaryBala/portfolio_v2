@@ -141,4 +141,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Start typing after a small delay
     setTimeout(typeCode, 1000);
+
+    // Mobile Profile Photo Modal Logic
+    const profileTrigger = document.querySelector('.nav-profile-img');
+    const modal = document.getElementById('profile-modal');
+    const closeBtn = document.querySelector('.close-modal');
+
+    if (profileTrigger && modal && closeBtn) {
+        // Open Modal
+        profileTrigger.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        // Close Modal (X button)
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Close Modal (Click outside image)
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
 });
