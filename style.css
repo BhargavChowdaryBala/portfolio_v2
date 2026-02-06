@@ -884,15 +884,16 @@ footer {
         background: rgba(0, 0, 0, 0.95);
         backdrop-filter: blur(10px);
         flex-direction: column;
-        padding: 20px;
+        padding: 25px;
+        /* Increased padding */
         border-bottom: 1px solid var(--glass-border);
         z-index: 1000;
         animation: slideDown 0.3s ease-in-out;
         overflow-y: auto;
         max-height: 80vh;
-        /* Allow scrolling if content is tall */
         scrollbar-width: none;
-        /* Firefox */
+        align-items: center;
+        /* Center items horizontally */
     }
 
     /* Transparent Scrollbar for Chrome/Safari/Edge */
@@ -906,9 +907,80 @@ footer {
     }
 
     .nav-links li {
-        margin: 8px 0;
-        /* Reduced spacing as requested */
+        margin: 5px 0;
+        /* Compact spacing */
         text-align: center;
+        width: 100%;
+        opacity: 0;
+        /* Hidden for animation */
+        transform: translateY(20px);
+    }
+
+    /* Staggered Animation */
+    .nav-links.active li {
+        animation: fadeInUp 0.4s ease forwards;
+    }
+
+    .nav-links.active li:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .nav-links.active li:nth-child(2) {
+        animation-delay: 0.15s;
+    }
+
+    .nav-links.active li:nth-child(3) {
+        animation-delay: 0.2s;
+    }
+
+    .nav-links.active li:nth-child(4) {
+        animation-delay: 0.25s;
+    }
+
+    .nav-links.active li:nth-child(5) {
+        animation-delay: 0.3s;
+    }
+
+    .nav-links.active li:nth-child(6) {
+        animation-delay: 0.35s;
+    }
+
+    .nav-links.active li:nth-child(7) {
+        animation-delay: 0.4s;
+    }
+
+    .nav-links.active li:nth-child(8) {
+        animation-delay: 0.45s;
+    }
+
+    .nav-links.active li:nth-child(9) {
+        animation-delay: 0.5s;
+    }
+
+    .nav-links a {
+        font-size: 1.2rem;
+        display: block;
+        padding: 10px 15px;
+        /* Increase hit area */
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Smooth motion */
+        text-shadow: 0 0 8px rgba(0, 242, 234, 0.4);
+        border-radius: 0 10px 10px 0;
+        border-left: 3px solid transparent;
+        /* Prepare for hover border */
+    }
+
+    .nav-links a:hover {
+        color: var(--primary-color);
+        letter-spacing: 2px;
+        text-shadow: 0 0 15px var(--primary-color), 0 0 30px var(--primary-color);
+
+        /* Glass & Glide Effect */
+        background: linear-gradient(90deg, rgba(0, 242, 234, 0.1), transparent);
+        transform: translateX(10px) scale(1.05);
+        border-left: 3px solid var(--primary-color);
+        padding-left: 25px;
+        /* Slide text */
     }
 
     .hamburger {
@@ -922,6 +994,13 @@ footer {
     .hamburger:hover {
         transform: scale(1.1);
         text-shadow: 0 0 10px var(--primary-color);
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 }
 
