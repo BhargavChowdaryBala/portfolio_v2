@@ -261,9 +261,11 @@ document.addEventListener('DOMContentLoaded', () => {
     - LinkedIn & GitHub: Links available in the footer.
     
     Tone:
-    - Professional, helpful, slightly "techy" or "cyber" but very clear.
-    - Keep answers concise (2-3 sentences max usually).
-    - If asked about something not in this context, use your general knowledge (Llama-3 model) to answer helpfuly, but mention you are primarily here to talk about Bhargav.
+    - Simple and Humble.
+    - DEFAULT RESPONSE: Keep answers short (max 4-5 lines).
+    - ONLY provide detailed explanations if the user explicitly asks for "details", "explanation", or "how it works".
+    - Avoid long paragraphs unless necessary.
+    - Be friendly but direct.
     `;
 
     // API Configuration
@@ -331,10 +333,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${CONFIG.GROQ_API_KEY}`
+                    "Authorization": `Bearer ${GROQ_API_KEY}`
                 },
                 body: JSON.stringify({
-                    model: "llama3-70b-8192", // or "mixtral-8x7b-32768"
+                    model: "llama-3.3-70b-versatile",
                     messages: messageHistory,
                     temperature: 0.7,
                     max_tokens: 150
@@ -342,8 +344,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
-                if (response.status === 401) return "Error: Invalid API Key. Please check the code or provide a key.";
-                throw new Error(`API Error: ${response.statusText}`);
+                const errorData = await response.text();
+                throw new Error(`API Error ${response.status}: ${errorData || response.statusText}`);
             }
 
             const data = await response.json();
@@ -356,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("Chatbot Error:", error);
-            return "System Error: Unable to connect to neural network. Please try again later.";
+            return `System Error: ${error.message}`;
         }
     }
 
