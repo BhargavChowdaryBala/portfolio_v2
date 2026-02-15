@@ -354,6 +354,37 @@
         </section>
     </main>
 
+    <!-- Chatbot Widget -->
+    <div id="chatbot-container" class="chatbot-container">
+        <!-- Chat Bubble -->
+        <div id="chat-bubble" class="chat-bubble">
+            <i class="fas fa-robot"></i>
+            <span class="notification-dot"></span>
+        </div>
+
+        <!-- Chat Window -->
+        <div id="chat-window" class="chat-window">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <i class="fas fa-terminal"></i> AI Assistant
+                    <span class="status-indicator"></span>
+                </div>
+                <div class="chat-controls">
+                    <span class="minimize-chat"><i class="fas fa-minus"></i></span>
+                </div>
+            </div>
+            <div id="chat-messages" class="chat-messages">
+                <div class="message bot-message">
+                    Hello! I'm Bhargav's AI assistant. Ask me anything about his skills, projects, or experience!
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Type your question..." autocomplete="off">
+                <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="social-links footer-socials">
             <a href="https://github.com/BhargavChowdaryBala" target="_blank" aria-label="GitHub"><i
@@ -370,7 +401,7 @@
         <img src="bhargav_[ic.jpeg" class="modal-content" id="full-profile-img" alt="Full Profile">
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>
