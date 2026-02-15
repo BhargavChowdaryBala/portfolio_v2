@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Hide all sections
         sections.forEach(sec => {
             sec.classList.remove('active-section');
-            // Helper to ensure display:none is applied effectively by removing active class
         });
 
         // Show target section
@@ -48,6 +47,53 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Transition Animation Logic
+    function navigateWithTransition(targetId) {
+        const overlay = document.getElementById('code-transition-overlay');
+        const loaderText = overlay.querySelector('.loader-text');
+
+        if (!overlay) {
+            switchTab(targetId);
+            return;
+        }
+
+        // Show Overlay
+        overlay.classList.add('active');
+
+        // Clean ID for display
+        const targetName = targetId.replace('#', '');
+        const displayTarget = targetName.charAt(0).toUpperCase() + targetName.slice(1);
+
+        // Simulation Steps
+        const messages = [
+            `> Initializing ${displayTarget} module...`,
+            `> Loading assets...`,
+            `> Compiling code...`,
+            `> Executing...`
+        ];
+
+        let msgIndex = 0;
+        loaderText.textContent = messages[0];
+
+        const interval = setInterval(() => {
+            msgIndex++;
+            if (msgIndex < messages.length) {
+                loaderText.textContent = messages[msgIndex];
+            }
+        }, 250); // Speed of text change
+
+        // Duration of transition
+        setTimeout(() => {
+            clearInterval(interval);
+            switchTab(targetId);
+
+            // Hide Overlay
+            setTimeout(() => {
+                overlay.classList.remove('active');
+            }, 300); // Slight delay to ensure switch is visible
+        }, 1200); // Total transition time
+    }
+
     // Add click event listeners
     navLinksList.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -56,9 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Only handle if it's an internal link (starts with #)
             if (targetId && targetId.startsWith('#')) {
                 e.preventDefault();
-                switchTab(targetId);
+                navigateWithTransition(targetId);
             }
-            // Otherwise, let the browser handle it (e.g., Resume download)
         });
     });
 
@@ -66,11 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const logo = document.querySelector('.logo');
     if (logo) {
         logo.addEventListener('click', () => {
-            switchTab('#hero');
+            navigateWithTransition('#hero');
         });
     }
 
-    // Show Home/Hero by default
+    // Show Home/Hero by default (No transition for initial load)
     switchTab('#hero');
 
 

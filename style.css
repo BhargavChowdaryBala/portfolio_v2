@@ -877,46 +877,39 @@ footer {
 
     .nav-links {
         display: none;
-        position: absolute;
-        top: 70px;
+        position: fixed;
+        top: 0;
         left: 0;
         width: 100%;
+        height: 100vh;
         background: rgba(0, 0, 0, 0.95);
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
         flex-direction: column;
-        padding: 25px;
-        /* Increased padding */
-        border-bottom: 1px solid var(--glass-border);
-        z-index: 1000;
-        animation: slideDown 0.3s ease-in-out;
+        justify-content: flex-start;
+        /* Start from top to prevent cutting off on small screens */
+        padding-top: 80px;
+        /* Space for close button/header */
         overflow-y: auto;
-        max-height: 80vh;
-        scrollbar-width: none;
-        align-items: center;
-        /* Center items horizontally */
-    }
-
-    /* Transparent Scrollbar for Chrome/Safari/Edge */
-    .nav-links::-webkit-scrollbar {
-        width: 0;
-        background: transparent;
+        /* Enable scroll if needed */
+        z-index: 999;
     }
 
     .nav-links.active {
         display: flex;
+        animation: fadeIn 0.3s ease-in-out;
     }
 
     .nav-links li {
-        margin: 5px 0;
-        /* Compact spacing */
-        text-align: center;
+        margin: 10px 0;
+        /* Reduced spacing */
         width: 100%;
+        display: flex;
+        justify-content: center;
         opacity: 0;
-        /* Hidden for animation */
         transform: translateY(20px);
     }
 
-    /* Staggered Animation */
+    /* Staggered Animation for List Items */
     .nav-links.active li {
         animation: fadeInUp 0.4s ease forwards;
     }
@@ -958,36 +951,107 @@ footer {
     }
 
     .nav-links a {
-        font-size: 1.2rem;
-        display: block;
-        padding: 10px 15px;
-        /* Increase hit area */
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        /* Smooth motion */
-        text-shadow: 0 0 8px rgba(0, 242, 234, 0.4);
-        border-radius: 0 10px 10px 0;
-        border-left: 3px solid transparent;
-        /* Prepare for hover border */
+        position: relative;
+        font-family: var(--font-mono);
+        font-size: 1.1rem;
+        /* Smaller font to fit screen */
+        padding: 8px 25px;
+        /* Reduced padding height */
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        background: rgba(255, 255, 255, 0.05);
+        overflow: hidden;
+        /* For the light animation */
+        transition: all 0.3s ease;
+        width: 80%;
+        /* Limit width */
+        max-width: 300px;
+        text-align: center;
+        /* No border radius for sharp cyber look, or keep small radius */
+        border-radius: 4px;
+        border: 1px solid transparent;
+    }
+
+    /* Moving Blue Light Animation */
+    .nav-links a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 242, 234, 0.8), transparent);
+        transition: 0.5s;
+        animation: movingLight 3s linear infinite;
+    }
+
+    /* Specific animation delay for each button to make it look sequential or random */
+    .nav-links li:nth-child(odd) a::before {
+        animation-duration: 2.5s;
+    }
+
+    .nav-links li:nth-child(even) a::before {
+        animation-duration: 3.5s;
+    }
+
+    @keyframes movingLight {
+        0% {
+            left: -100%;
+        }
+
+        50%,
+        100% {
+            left: 100%;
+        }
+    }
+
+    /* Border Glow Animation (Alternative/Addition) */
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 4px;
+        padding: 1px;
+        /* Border width */
+        background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        pointer-events: none;
+        background-size: 200% 100%;
+        animation: borderMove 2s linear infinite;
+    }
+
+    @keyframes borderMove {
+        0% {
+            background-position: 100% 0;
+        }
+
+        100% {
+            background-position: -100% 0;
+        }
     }
 
     .nav-links a:hover {
+        background: rgba(0, 242, 234, 0.1);
+        box-shadow: 0 0 15px rgba(0, 242, 234, 0.4);
+        transform: scale(1.02);
         color: var(--primary-color);
-        letter-spacing: 2px;
-        text-shadow: 0 0 15px var(--primary-color), 0 0 30px var(--primary-color);
-
-        /* Glass & Glide Effect */
-        background: linear-gradient(90deg, rgba(0, 242, 234, 0.1), transparent);
-        transform: translateX(10px) scale(1.05);
-        border-left: 3px solid var(--primary-color);
-        padding-left: 25px;
-        /* Slide text */
     }
 
     .hamburger {
         display: block;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         color: var(--primary-color);
         cursor: pointer;
+        z-index: 1001;
+        position: relative;
         transition: transform 0.3s ease;
     }
 
@@ -1278,4 +1342,76 @@ footer {
     color: var(--primary-color);
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Transition Overlay */
+.transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 9999;
+    display: none;
+    /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.transition-overlay.active {
+    display: flex;
+}
+
+.transition-content {
+    text-align: center;
+    color: var(--primary-color);
+    font-family: var(--font-mono);
+    position: relative;
+    z-index: 2;
+}
+
+.terminal-loader {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-shadow: 0 0 10px rgba(0, 242, 234, 0.7);
+}
+
+.loader-text {
+    display: inline-block;
+}
+
+/* Cursor Animation for Loader */
+.terminal-loader .cursor {
+    animation: blink 1s step-end infinite;
+    color: var(--primary-color);
+}
+
+/* Matrix Effect Background */
+.matrix-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0, 242, 234, 0.1) 20%, transparent 20%),
+        linear-gradient(90deg, rgba(0, 242, 234, 0.1) 20%, transparent 20%);
+    background-size: 20px 20px;
+    opacity: 0.3;
+    z-index: 1;
+    animation: matrixScan 2s linear infinite;
+}
+
+@keyframes matrixScan {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 40px;
+    }
 }
