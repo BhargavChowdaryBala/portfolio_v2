@@ -1500,8 +1500,8 @@ footer {
         left: auto;
         right: 20px;
         /* Aligned to right */
-        width: 85vw;
-        /* Not full width */
+        width: 70vw;
+        /* Smaller width to fit screen */
         margin: 0;
         height: 55vh;
         /* Medium height for better visibility */
