@@ -215,6 +215,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Chatbot Head Clock
+    function initChatbotClock() {
+        const timeDisplay = document.getElementById('chatbot-time-display');
+        const chatbotContainer = document.getElementById('chatbot-container');
+        if (!timeDisplay) return;
+
+        function updateTime() {
+            const now = new Date();
+            timeDisplay.textContent = now.toLocaleTimeString('en-US', { hour12: false });
+        }
+
+        updateTime(); // Initial call
+        setInterval(updateTime, 1000);
+
+        // Show time by default (simulating "thinking of time")
+        if (chatbotContainer) chatbotContainer.classList.add('show-time');
+    }
+    initChatbotClock();
+
     // Matrix Animation Logic
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas ? canvas.getContext('2d') : null;
@@ -546,23 +565,38 @@ document.addEventListener('DOMContentLoaded', () => {
         chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll
     }
 
-    // Show Typing Indicator
+    let typingInterval;
+
+    // Show Typing Indicator with Timer
     function showTyping() {
         if (!chatMessages) return;
         const typingDiv = document.createElement('div');
         typingDiv.classList.add('typing-indicator');
         typingDiv.id = 'typing-indicator';
+
+        const getNow = () => new Date().toLocaleTimeString('en-US', { hour12: false });
+
         typingDiv.innerHTML = `
             <span class="typing-dot"></span>
             <span class="typing-dot"></span>
             <span class="typing-dot"></span>
+            <span class="typing-timer" style="margin-left: 10px; font-size: 0.8rem; opacity: 0.8;">[${getNow()}]</span>
         `;
         chatMessages.appendChild(typingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        clearInterval(typingInterval);
+        typingInterval = setInterval(() => {
+            const timerSpan = typingDiv.querySelector('.typing-timer');
+            if (timerSpan) {
+                timerSpan.textContent = `[${getNow()}]`;
+            }
+        }, 1000);
     }
 
     // Remove Typing Indicator
     function removeTyping() {
+        clearInterval(typingInterval);
         const typingDiv = document.getElementById('typing-indicator');
         if (typingDiv) typingDiv.remove();
     }
@@ -636,5 +670,60 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'Enter') handleSend();
         });
     }
+
+    // Draggable Chat Window Logic
+    function initDraggableChat() {
+        const chatWindow = document.getElementById('chat-window');
+        const dragHandle = document.getElementById('chat-drag-handle');
+
+        if (!chatWindow || !dragHandle) return;
+
+        let isDragging = false;
+        let startX, startY, initialLeft, initialTop;
+
+        dragHandle.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            isDragging = true;
+
+            // Get initial mouse position
+            startX = e.clientX;
+            startY = e.clientY;
+
+            // Get initial element position
+            const rect = chatWindow.getBoundingClientRect();
+            initialLeft = rect.left;
+            initialTop = rect.top;
+
+            // Remove right/bottom positioning to allow top/left to take over
+            chatWindow.style.right = 'auto';
+            chatWindow.style.bottom = 'auto';
+            chatWindow.style.left = `${initialLeft}px`;
+            chatWindow.style.top = `${initialTop}px`;
+
+            dragHandle.style.cursor = 'grabbing';
+            chatWindow.style.transition = 'none'; // Disable transition for smooth dragging
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            e.preventDefault();
+
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            chatWindow.style.left = `${initialLeft + dx}px`;
+            chatWindow.style.top = `${initialTop + dy}px`;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                dragHandle.style.cursor = 'grab';
+                chatWindow.style.transition = ''; // Re-enable transition if any
+            }
+        });
+    }
+    initDraggableChat();
 
 });
