@@ -1497,10 +1497,11 @@ footer {
     .chat-window {
         position: fixed;
         bottom: 85px;
-        left: 10px;
-        right: 10px;
-        /* Minimal side margins */
-        width: auto;
+        left: auto;
+        right: 20px;
+        /* Aligned to right */
+        width: 85vw;
+        /* Not full width */
         margin: 0;
         height: 55vh;
         /* Medium height for better visibility */
