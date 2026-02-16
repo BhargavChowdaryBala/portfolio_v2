@@ -1598,6 +1598,47 @@ footer {
     }
 }
 
+/* Mobile Footer Fixes */
+@media (max-width: 768px) {
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px 0;
+        /* Reduced padding */
+        z-index: 10000;
+        /* High z-index */
+        border-top: 1px solid rgba(0, 242, 234, 0.2);
+        background: rgba(11, 17, 32, 0.98);
+        /* Less transparency for readability */
+    }
+
+    footer p {
+        font-size: 0.75rem;
+        /* Smaller copyright text */
+        margin-top: 5px;
+    }
+
+    .footer-socials {
+        margin-bottom: 5px;
+        /* Tighter spacing */
+    }
+
+    .social-links a {
+        width: 35px;
+        /* Smaller icons */
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    /* Add padding to body to prevent content overlap */
+    body {
+        padding-bottom: 80px;
+        /* Adjust based on footer height */
+    }
+}
+
 .chat-bubble:hover {
     transform: scale(1.1);
     box-shadow: 0 0 30px rgba(0, 242, 234, 0.6);
