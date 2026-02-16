@@ -787,12 +787,23 @@ footer {
     transform: translateY(-2px);
 }
 
+
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
+
+    /* Show Hamburger on Mobile */
+    .hamburger {
+        display: block;
+        z-index: 1001;
+    }
+
     .hero-container {
-        flex-direction: column;
-        gap: 20px;
+        flex-direction: column-reverse;
+        /* Put content above image (if image visible) or just stack */
+        gap: 40px;
         margin-top: 20px;
+        align-items: center;
     }
 
     /* Hide big profile image on mobile */
@@ -828,25 +839,37 @@ footer {
     .hero-content {
         text-align: center;
         width: 100%;
+        flex: auto;
+        /* Reset flex */
     }
 
     .terminal-window {
         width: 100%;
         max-width: 100%;
+        /* Force fit */
+        height: auto;
+        min-height: 300px;
+        /* Reasonable height */
         text-align: left;
         /* Keep code left-aligned */
         font-size: 0.5rem;
         /* Matches "decrease some more" request */
-        margin-bottom: 0px;
+        margin-bottom: 20px;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     .terminal-body {
-        padding: 5px;
+        padding: 10px;
+        height: 250px;
+        /* Reduced height for mobile */
     }
 
     .cta-buttons {
         justify-content: center;
-        gap: 8px;
+        gap: 15px;
+        flex-wrap: wrap;
+        /* Allow wrapping */
     }
 
     .btn {
@@ -1440,6 +1463,82 @@ footer {
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     animation: floatBubble 3s ease-in-out infinite;
     backdrop-filter: blur(10px);
+    /* Enhanced Face Attributes */
+    box-shadow: 0 0 15px var(--primary-color), inset 0 0 10px var(--primary-color);
+    overflow: hidden;
+}
+
+/* ... existing keyframes ... */
+
+.chat-bubble i {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 5px var(--primary-color);
+    animation: blinkFace 4s infinite;
+}
+
+@keyframes blinkFace {
+
+    0%,
+    45%,
+    55%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+        text-shadow: 0 0 15px var(--primary-color);
+    }
+}
+
+/* Mobile Responsive Chatbot */
+@media (max-width: 768px) {
+    .chat-window {
+        position: fixed;
+        bottom: 85px;
+        left: 10px;
+        right: 10px;
+        /* Minimal side margins */
+        width: auto;
+        margin: 0;
+        height: 55vh;
+        /* Medium height for better visibility */
+        max-height: none;
+        /* Remove constraint */
+        border-radius: 12px;
+        z-index: 10001;
+        transform-origin: bottom center;
+    }
+
+    /* Fix General Mobile Layout Overflow */
+    .projects-grid,
+    .skills-grid-linear {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-content {
+        padding: 30px 20px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .chatbot-container {
+        bottom: 20px;
+        right: 20px;
+        z-index: 10002;
+    }
+
+    .chat-bubble {
+        width: 55px;
+        height: 55px;
+    }
 }
 
 @keyframes floatBubble {
@@ -1492,11 +1591,16 @@ footer {
 
 /* Chat Window */
 .chat-window {
-    position: absolute;
-    bottom: 80px;
-    right: 0;
-    width: 350px;
-    height: 500px;
+    position: fixed;
+    /* Changed from absolute */
+    bottom: 100px;
+    /* Adjusted for being outside container */
+    right: 30px;
+    /* Aligned with bubble */
+    width: 450px;
+    /* Wider like a terminal */
+    height: 420px;
+    /* Matching terminal height */
     background: rgba(11, 17, 32, 0.95);
     border: 1px solid var(--primary-color);
     border-radius: 12px;
@@ -1508,6 +1612,8 @@ footer {
     backdrop-filter: blur(15px);
     transform-origin: bottom right;
     animation: openChat 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10001;
+    /* Ensure distinct z-index */
 }
 
 .chat-window.active {
