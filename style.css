@@ -1421,8 +1421,15 @@ footer {
     font-weight: bold;
     display: flex;
     align-items: center;
-    gap: 5px;
-    text-shadow: 0 0 10px rgba(0, 242, 234, 0.7);
+    gap: 10px;
+    /* text-shadow: 0 0 10px rgba(10, 255, 10, 0.8); */
+    /* Removed text shadow for cleaner look */
+    border: 2px solid #0aff0a;
+    /* Green Border */
+    background: rgba(0, 0, 0, 1);
+    /* Solid Black Background */
+    color: #0aff0a;
+    /* Green Text */
 }
 
 .loader-text {
@@ -1436,19 +1443,7 @@ footer {
 }
 
 /* Matrix Effect Background */
-.matrix-effect {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(0deg, rgba(0, 242, 234, 0.1) 20%, transparent 20%),
-        linear-gradient(90deg, rgba(0, 242, 234, 0.1) 20%, transparent 20%);
-    background-size: 20px 20px;
-    opacity: 0.3;
-    z-index: 1;
-    animation: matrixScan 2s linear infinite;
-}
+
 
 @keyframes matrixScan {
     0% {
@@ -1823,4 +1818,22 @@ footer {
     40% {
         transform: scale(1);
     }
+}
+
+/* Matrix Animation Canvas */
+#matrix-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    /* Behind content but above overlay background */
+    pointer-events: none;
+}
+
+.transition-content {
+    position: relative;
+    z-index: 2;
+    /* Ensure text is above canvas */
 }
