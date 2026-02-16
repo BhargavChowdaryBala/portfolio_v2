@@ -11,9 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (navLinks.classList.contains('active')) {
             icon.classList.remove('fa-bars');
             icon.classList.add('fa-times');
+            document.body.classList.add('no-scroll'); // Prevent body scroll
         } else {
             icon.classList.remove('fa-times');
             icon.classList.add('fa-bars');
+            document.body.classList.remove('no-scroll'); // Re-enable body scroll
         }
     });
 
@@ -45,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             icon.classList.remove('fa-times');
             icon.classList.add('fa-bars');
         }
+        document.body.classList.remove('no-scroll'); // Re-enable body scroll
     }
 
     // Transition Animation Logic
@@ -97,6 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add click event listeners
     navLinksList.forEach(link => {
         link.addEventListener('click', (e) => {
+            // Ignore download links
+            if (link.hasAttribute('download')) return;
+
             const targetId = link.getAttribute('href');
 
             // Only handle if it's an internal link (starts with #)
