@@ -1,4 +1,159 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Custom Cursor Logic (Fluid Canvas)
+    function initCursor() {
+        try {
+            const cursorCanvas = document.getElementById('cursor-canvas');
+            if (!cursorCanvas) {
+                throw new Error('Cursor canvas not found');
+            }
+
+            const ctx = cursorCanvas.getContext('2d');
+            if (!ctx) {
+                throw new Error('2D context not available');
+            }
+
+            // Successfully initialized, hide default cursor
+            document.body.classList.add('custom-cursor-active');
+
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            let cursor = { x: width / 2, y: height / 2 };
+            const lines = [];
+            const config = {
+                friction: 0.5,
+                trails: 20,
+                size: 50,
+                dampening: 0.25,
+                tension: 0.98
+            };
+
+            // Resize Logic
+            function resize() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                cursorCanvas.width = width;
+                cursorCanvas.height = height;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            // Mouse Tracker
+            function onMouseMove(e) {
+                cursor.x = e.clientX;
+                cursor.y = e.clientY;
+            }
+            window.addEventListener('mousemove', onMouseMove);
+
+            // Oscillator for Color (Phase)
+            function Oscillator(options) {
+                this.phase = options.phase || 0;
+                this.offset = options.offset || 0;
+                this.frequency = options.frequency || 0.001;
+                this.amplitude = options.amplitude || 1;
+                this.update = function () {
+                    this.phase += this.frequency;
+                    return this.offset + Math.sin(this.phase) * this.amplitude;
+                };
+            }
+
+            // Node Class
+            function Node() {
+                this.x = cursor.x;
+                this.y = cursor.y;
+                this.vx = 0;
+                this.vy = 0;
+            }
+
+            // Line Class
+            function Line(options) {
+                this.spring = options.spring + 0.1 * Math.random() - 0.02;
+                this.friction = config.friction + 0.01 * Math.random() - 0.002;
+                this.nodes = [];
+                for (let i = 0; i < config.size; i++) {
+                    this.nodes.push(new Node());
+                }
+                this.update = function () {
+                    let spring = this.spring;
+                    let node = this.nodes[0];
+                    node.vx += (cursor.x - node.x) * spring;
+                    node.vy += (cursor.y - node.y) * spring;
+
+                    for (let i = 0; i < this.nodes.length; i++) {
+                        node = this.nodes[i];
+                        if (i > 0) {
+                            let prev = this.nodes[i - 1];
+                            node.vx += (prev.x - node.x) * spring;
+                            node.vy += (prev.y - node.y) * spring;
+                            node.vx += prev.vx * config.dampening;
+                            node.vy += prev.vy * config.dampening;
+                        }
+                        node.vx *= this.friction;
+                        node.vy *= this.friction;
+                        node.x += node.vx;
+                        node.y += node.vy;
+                        spring *= config.tension;
+                    }
+                };
+                this.draw = function () {
+                    let n = this.nodes[0];
+                    ctx.beginPath();
+                    ctx.moveTo(n.x, n.y);
+                    for (let i = 1; i < this.nodes.length - 2; i++) {
+                        let e = this.nodes[i];
+                        let t = this.nodes[i + 1];
+                        let midX = 0.5 * (e.x + t.x);
+                        let midY = 0.5 * (e.y + t.y);
+                        ctx.quadraticCurveTo(e.x, e.y, midX, midY);
+                    }
+                    let last = this.nodes[this.nodes.length - 2];
+                    let veryLast = this.nodes[this.nodes.length - 1];
+                    ctx.quadraticCurveTo(last.x, last.y, veryLast.x, veryLast.y);
+                    ctx.stroke();
+                    ctx.closePath();
+                };
+            }
+
+            // Oscillator Instance (Green Color Range: Hue ~120 to ~160)
+            const f = new Oscillator({
+                phase: Math.random() * 2 * Math.PI,
+                amplitude: 20, // Small range
+                frequency: 0.0015,
+                offset: 140 // Cyan/Green center
+            });
+
+            // Initialize Lines
+            for (let i = 0; i < config.trails; i++) {
+                lines.push(new Line({ spring: 0.4 + (i / config.trails) * 0.025 }));
+            }
+
+            // Render Loop
+            function render() {
+                if (!document.body.classList.contains('custom-cursor-active')) return;
+
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.clearRect(0, 0, width, height);
+
+                ctx.globalCompositeOperation = 'lighter';
+                ctx.strokeStyle = 'hsla(' + Math.round(f.update()) + ', 90%, 50%, 0.25)';
+                ctx.lineWidth = 1;
+
+                for (let i = 0; i < config.trails; i++) {
+                    lines[i].update();
+                    lines[i].draw();
+                }
+                requestAnimationFrame(render);
+            }
+            render();
+
+        } catch (e) {
+            console.warn('Custom cursor initialization failed, reverting to default cursor:', e);
+            document.body.classList.remove('custom-cursor-active');
+            const cursorCanvas = document.getElementById('cursor-canvas');
+            if (cursorCanvas) cursorCanvas.style.display = 'none';
+        }
+    }
+    initCursor();
+
     // Mobile Navigation Toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
@@ -48,6 +203,16 @@ document.addEventListener('DOMContentLoaded', () => {
             icon.classList.add('fa-bars');
         }
         document.body.classList.remove('no-scroll'); // Re-enable body scroll
+
+        // Update Background: Home gets default, others get Tech Background
+        const bg = document.querySelector('.background-gradient');
+        if (bg) {
+            if (targetId === '#hero') {
+                bg.classList.remove('tech-background-active');
+            } else {
+                bg.classList.add('tech-background-active');
+            }
+        }
     }
 
     // Matrix Animation Logic
@@ -65,10 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const katakana = '01';
-        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const nums = '0123456789';
-        const alphabet = katakana + latin + nums;
+        const alphabet = 'BHARGAV';
 
         const fontSize = 20; // Increased font size for more gap
         const columns = canvas.width / fontSize;
