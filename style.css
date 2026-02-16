@@ -23,6 +23,11 @@
     scroll-behavior: smooth;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 body {
     font-family: var(--font-main);
     background-color: var(--bg-color);
@@ -1497,11 +1502,13 @@ footer {
     .chat-window {
         position: fixed;
         bottom: 85px;
-        left: auto;
+        left: 20px;
         right: 20px;
-        /* Aligned to right */
-        width: 70vw;
-        /* Smaller width to fit screen */
+        /* Perfect fit with equal margins */
+        width: auto !important;
+        /* Force override of desktop fixed width */
+        max-width: calc(100% - 40px);
+        /* Ensure it never exceeds screen minus margins */
         margin: 0;
         height: 55vh;
         /* Medium height for better visibility */
@@ -1510,6 +1517,16 @@ footer {
         border-radius: 12px;
         z-index: 10001;
         transform-origin: bottom center;
+    }
+
+    /* Remove Duplicate Social Links in Hero (Keep Footer) */
+    .hero-content .social-links {
+        display: none;
+    }
+
+    /* Safety for profile image wrapper */
+    .tech-profile-wrapper {
+        max-width: 100%;
     }
 
     /* Fix General Mobile Layout Overflow */
