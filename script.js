@@ -723,6 +723,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 chatWindow.style.transition = ''; // Re-enable transition if any
             }
         });
+
+        // Touch Support
+        dragHandle.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            isDragging = true;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+
+            const rect = chatWindow.getBoundingClientRect();
+            initialLeft = rect.left;
+            initialTop = rect.top;
+
+            chatWindow.style.right = 'auto';
+            chatWindow.style.bottom = 'auto';
+            chatWindow.style.left = `${initialLeft}px`;
+            chatWindow.style.top = `${initialTop}px`;
+            chatWindow.style.transition = 'none';
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault(); // Prevent scrolling
+
+            const dx = e.touches[0].clientX - startX;
+            const dy = e.touches[0].clientY - startY;
+
+            chatWindow.style.left = `${initialLeft + dx}px`;
+            chatWindow.style.top = `${initialTop + dy}px`;
+        }, { passive: false });
+
+        document.addEventListener('touchend', () => {
+            if (isDragging) {
+                isDragging = false;
+                chatWindow.style.transition = '';
+            }
+        });
     }
     initDraggableChat();
 
