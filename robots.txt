@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bhargavchowdarybala.vercel.app/sitemap.xml
