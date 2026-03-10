@@ -1944,3 +1944,62 @@ footer {
     z-index: 2;
     /* Ensure text is above canvas */
 }
+
+/* Certifications CSS */
+.cert-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cert-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+    border: 1px solid var(--glass-border);
+}
+
+.cert-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 242, 234, 0.1);
+    border-color: var(--primary-color);
+}
+
+.cert-name {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.cert-name::before {
+    content: '\f0a3';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    color: var(--primary-color);
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
+
+.cert-name:hover {
+    color: var(--primary-color);
+}
+
+.cert-download {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
