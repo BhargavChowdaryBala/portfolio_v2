@@ -1,3 +1,5 @@
+import { BeamsBackground } from './beams.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     // Custom Cursor Logic (Fluid Canvas)
     function initCursor() {
@@ -880,7 +882,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initialize the effect
+    // Initialize effects
     new ClickSpark();
+    
+    // Initialize the Beams Background with your specified configuration
+    new BeamsBackground({
+        beamWidth: 2,
+        beamHeight: 15,
+        beamNumber: 12,
+        lightColor: "#1fb1ef",
+        speed: 2,
+        noiseIntensity: 1.75,
+        scale: 0.2,
+        rotation: 0
+    });
 
 });
