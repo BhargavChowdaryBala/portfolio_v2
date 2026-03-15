@@ -1,5 +1,5 @@
 :root {
-    --bg-color: #000000;
+    --bg-color: #050a15; /* Professional Deep Slate/Navy instead of pure black */
     --text-color: #e2e8f0;
     --primary-color: #00f2ea;
     /* Cyber Cyan */
@@ -34,7 +34,7 @@ img {
 
 body {
     font-family: var(--font-main);
-    background-color: transparent;
+    background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
     overflow-x: hidden;
@@ -47,29 +47,32 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Colored radial gradients removed for solid black feel */
-    background: transparent;
+    /* Professional sleek dark background with subtle glowing mesh orbs and faint grid */
+    background-color: var(--bg-color);
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    /* Tech Grid */
+        radial-gradient(circle at 15% 50%, rgba(0, 242, 234, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(112, 0, 223, 0.08) 0%, transparent 40%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
     z-index: -1;
     pointer-events: none;
     transition: background-image 0.5s ease;
-    /* Smooth transition */
 }
 
 /* Technical Background Pattern (Circuit-like) for inner pages */
 .background-gradient.tech-background-active {
     background-image:
+        /* Shifted glowing orbs for active state */
+        radial-gradient(circle at 85% 70%, rgba(0, 242, 234, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 15% 30%, rgba(112, 0, 223, 0.12) 0%, transparent 40%),
         /* Small dots at intersections */
         radial-gradient(rgba(0, 242, 234, 0.15) 2px, transparent 2.5px),
         /* Fine Grid */
-        linear-gradient(rgba(0, 242, 234, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 242, 234, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px, 20px 20px, 20px 20px;
-    background-position: 0 0, 0 0, 0 0;
+        linear-gradient(rgba(0, 242, 234, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 242, 234, 0.04) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 20px 20px, 20px 20px;
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
 }
 
 /* Custom Cursor Styles Removed for Professional Look */
@@ -961,80 +964,55 @@ footer {
     }
 
     .nav-links li {
-        margin: 10px 0;
-        /* Reduced spacing */
+        margin: 12px 0;
         width: 100%;
         display: flex;
         justify-content: center;
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateX(40px) translateY(10px);
     }
 
-    /* Staggered Animation for List Items */
+    /* Staggered Modern Animation */
     .nav-links.active li {
-        animation: fadeInUp 0.4s ease forwards;
+        animation: menuSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
     }
 
-    .nav-links.active li:nth-child(1) {
-        animation-delay: 0.1s;
-    }
+    .nav-links.active li:nth-child(1) { animation-delay: 0.1s; }
+    .nav-links.active li:nth-child(2) { animation-delay: 0.15s; }
+    .nav-links.active li:nth-child(3) { animation-delay: 0.2s; }
+    .nav-links.active li:nth-child(4) { animation-delay: 0.25s; }
+    .nav-links.active li:nth-child(5) { animation-delay: 0.3s; }
+    .nav-links.active li:nth-child(6) { animation-delay: 0.35s; }
+    .nav-links.active li:nth-child(7) { animation-delay: 0.4s; }
+    .nav-links.active li:nth-child(8) { animation-delay: 0.45s; }
+    .nav-links.active li:nth-child(9) { animation-delay: 0.5s; }
 
-    .nav-links.active li:nth-child(2) {
-        animation-delay: 0.15s;
-    }
-
-    .nav-links.active li:nth-child(3) {
-        animation-delay: 0.2s;
-    }
-
-    .nav-links.active li:nth-child(4) {
-        animation-delay: 0.25s;
-    }
-
-    .nav-links.active li:nth-child(5) {
-        animation-delay: 0.3s;
-    }
-
-    .nav-links.active li:nth-child(6) {
-        animation-delay: 0.35s;
-    }
-
-    .nav-links.active li:nth-child(7) {
-        animation-delay: 0.4s;
-    }
-
-    .nav-links.active li:nth-child(8) {
-        animation-delay: 0.45s;
-    }
-
-    .nav-links.active li:nth-child(9) {
-        animation-delay: 0.5s;
+    @keyframes menuSlideIn {
+        to {
+            opacity: 1;
+            transform: translateX(0) translateY(0);
+        }
     }
 
     .nav-links a {
         position: relative;
         font-family: var(--font-mono);
         font-size: 1.1rem;
-        /* Smaller font to fit screen */
-        padding: 8px 25px;
-        /* Reduced padding height */
+        padding: 12px 25px;
         color: #fff;
         text-transform: uppercase;
-        letter-spacing: 1px;
-        background: rgba(255, 255, 255, 0.05);
-        overflow: hidden;
-        /* For the light animation */
-        transition: all 0.3s ease;
+        letter-spacing: 2px;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(0, 242, 234, 0.2);
+        border-radius: 8px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         width: 80%;
-        /* Limit width */
         max-width: 300px;
         text-align: center;
-        /* No border radius for sharp cyber look, or keep small radius */
-        border-radius: 4px;
-        border: 1px solid transparent;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        overflow: hidden;
     }
 
-    /* Moving Blue Light Animation */
     .nav-links a::before {
         content: '';
         position: absolute;
@@ -1042,90 +1020,59 @@ footer {
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(0, 242, 234, 0.8), transparent);
-        transition: 0.5s;
-        animation: movingLight 3s linear infinite;
+        background: linear-gradient(90deg, transparent, rgba(0, 242, 234, 0.4), transparent);
+        transition: 0.5s ease;
     }
 
-    /* Specific animation delay for each button to make it look sequential or random */
-    .nav-links li:nth-child(odd) a::before {
-        animation-duration: 2.5s;
-    }
-
-    .nav-links li:nth-child(even) a::before {
-        animation-duration: 3.5s;
-    }
-
-    @keyframes movingLight {
-        0% {
-            left: -100%;
-        }
-
-        50%,
-        100% {
-            left: 100%;
-        }
-    }
-
-    /* Border Glow Animation (Alternative/Addition) */
-    .nav-links a::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: 4px;
-        padding: 1px;
-        /* Border width */
-        background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
-        -webkit-mask:
-            linear-gradient(#fff 0 0) content-box,
-            linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        mask:
-            linear-gradient(#fff 0 0) content-box,
-            linear-gradient(#fff 0 0);
-        pointer-events: none;
-        background-size: 200% 100%;
-        animation: borderMove 2s linear infinite;
-    }
-
-    @keyframes borderMove {
-        0% {
-            background-position: 100% 0;
-        }
-
-        100% {
-            background-position: -100% 0;
-        }
-    }
-
-    .nav-links a:hover {
-        background: rgba(0, 242, 234, 0.1);
-        box-shadow: 0 0 15px rgba(0, 242, 234, 0.4);
-        transform: scale(1.02);
+    .nav-links a:hover, .nav-links a:active {
+        background: rgba(0, 242, 234, 0.15);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 20px rgba(0, 242, 234, 0.4);
+        transform: scale(1.05);
         color: var(--primary-color);
+    }
+
+    .nav-links a:hover::before, .nav-links a:active::before {
+        left: 100%;
+        transition: 0.6s ease;
     }
 
     .hamburger {
         display: block;
-        font-size: 1.8rem;
-        color: var(--primary-color);
         cursor: pointer;
-        z-index: 1001;
+        z-index: 10006; /* Ensure it is above the nav-links overlay (10005) */
         position: relative;
-        transition: transform 0.3s ease;
+        width: 30px;
+        height: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
-    .hamburger:hover {
-        transform: scale(1.1);
-        text-shadow: 0 0 10px var(--primary-color);
+    .hamburger .bar {
+        width: 100%;
+        height: 3px;
+        background-color: var(--primary-color);
+        border-radius: 3px;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    @keyframes fadeInUp {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .hamburger:hover .bar {
+        box-shadow: 0 0 10px var(--primary-color);
+    }
+
+    /* Cross Animation Start */
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(10.5px) rotate(45deg);
+    }
+
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-10.5px) rotate(-45deg);
     }
 }
 
