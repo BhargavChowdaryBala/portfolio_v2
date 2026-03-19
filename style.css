@@ -339,13 +339,6 @@ ul {
     overflow-y: auto;
 }
 
-.code-line {
-    margin-bottom: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-}
 
 .prompt {
     color: var(--tech-green);
@@ -459,6 +452,7 @@ ul {
     box-shadow: 0 0 20px rgba(112, 0, 223, 0.4);
     transform: translateY(-2px);
 }
+
 
 /* Live Demo Button - Round, Highlight, Animated */
 .btn.btn-live {
@@ -817,6 +811,7 @@ footer {
 
 
 
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
 
@@ -871,27 +866,34 @@ footer {
         /* Reset flex */
     }
 
-    .terminal-window {
-        width: 100%;
-        max-width: 100%;
-        /* Force fit */
-        height: auto;
-        min-height: 300px;
-        /* Reasonable height */
-        text-align: left;
-        /* Keep code left-aligned */
-        font-size: 0.5rem;
-        /* Matches "decrease some more" request */
-        margin-bottom: 20px;
-        margin-left: 0;
-        margin-right: 0;
-    }
+.terminal-window {
+    background: var(--terminal-bg);
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    margin-bottom: 40px;
+    width: 650px;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    .terminal-body {
-        padding: 10px;
-        height: 250px;
-        /* Reduced height for mobile */
-    }
+.terminal-header {
+    background: rgba(15, 23, 42, 0.6);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.terminal-body {
+    padding: 30px;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--tech-green);
+    line-height: 1.6;
+}
 
     .cta-buttons {
         justify-content: center;
